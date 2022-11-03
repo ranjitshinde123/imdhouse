@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+
+{% block title %} Inventory List {% endblock title %}
+
+
+{% block content %}
+    <!-- Log on to codeastro.com for more projects -->
+    <div class="card text-left">
+          <div class="card-header" style="background-color:#01345B">
+            <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+            <div class="col-md-8" style="font-family: 'Alkalami'" >Inward List</div>
+            <div class="col-md-4">
+                <div style="float:right; margin-top:8%"> <a class="btn btn-info" href="{% url 'new-stock' %}">Add New Stock</a> </div>
+            </div>
+            </div>
+          </div>
+    </div>
+
+
+    <div style="border-bottom: 1px solid white;"></div>
+
+    <br>
+
+    <div class="form-group">
+        <input id="myInput" type="text" class="search form-control"  placeholder="Search">
+    </div>
+    <table class="table table-css table-bordered table-hover" id="myTable" onkeyup="myFunction()">
+        <br>
+
+        <thead class="thead-dark align-middle">
+            <tr>
+                <th width="8%">Stock Name</th>
+                <th width="9%">Category</th>
+                <th width="8%">Sub Category</th>
+                <th width="8%">Type</th>
+                <th width="5%">Quantity Received</th>
+                <th width="5%">Description</th>
+                <th width="5%">Received From</th>
+                <th width="5%">Condition</th>
+                <th width="8%">Label-code</th>
+                <th width="5%">Mode Of Delivery</th>
+                <th width="25%">Actions</th>
+            </tr>
+        </thead>
+
+{% if object_list %}
+
+        <tbody>     <!-- Log on to codeastro.com for more projects -->
+            {% for stock in object_list %}
+        <tr>
+
+                    <td class="align-middle">{{ stock.subcategory }}</td>
+                    <td class="align-middle">{{ stock.category }}</td>
+                    <td class="align-middle">{{ stock.subcategory }}</td>
+                    <td class="align-middle">{{ stock.type }}</td>
+                    <td class="align-middle">{{ stock.quantity }}{{stock.unit}}</td>
+                    <td class="align-middle">{{ stock.description }}</td>
+                    <td class="align-middle">{{ stock.name }}</td>
+                    <td class="align-middle">{{ stock.condition }}</td>
+                    <td class="align-middle">{{ stock.label_code }}</td>
+                    <td class="align-middle">{{ stock.Mode_of_delivery }}</td>
+
+
+
+
+                    <td class="align-middle">
+                        <a href="{% url 'edit-stock' stock.pk %}" class="btn btn-info btn-sm">Edit</a>
+                        <a href="{% url 'delete-stock' stock.pk %}" class="btn btn-danger btn-sm"> Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <div class="align-middle">
+        {% if is_paginated %}
+
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}<!-- Log on to codeastro.com for more projects -->
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+
+        {% endif %}
+    </div>
+
+    <div>
+        <a href="{% url 'stockre' %}" class="btn btn-success">Export CSV</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>
+    </div>
+
+{% else %}
+
+        <tbody></tbody>
+    </table><!-- Log on to codeastro.com for more projects -->
+<!--    <div >-->
+<!--                <a href="{% url 'stockre' %}" class="btn btn-secondary">Export CSV</a>-->
+
+<!--    </div>-->
+
+    <br><br><br><br><br><br><br><br>
+    <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">The records are empty. Please try adding some.</div>
+
+{% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+{% endblock content %}

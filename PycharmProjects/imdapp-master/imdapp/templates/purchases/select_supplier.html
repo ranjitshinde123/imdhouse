@@ -1,0 +1,40 @@
+
+{% extends "base.html" %}
+
+
+{% block title %} New Purchase {% endblock title %}
+
+
+{% block content %}
+
+    <div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'" >New Purchase</div>
+             <div class="col-md-4">
+                 <div style="float:right; margin-top:8%"></div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <form method="post">
+
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+
+        <br>
+        <div class="align-middle">
+            <button type="submit" class="btn btn-success">Next</button>
+            <a href="{% url 'purchases-list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+
+{% endblock content %}

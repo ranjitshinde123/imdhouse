@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+
+{% block title %} Inward Slip List {% endblock title %}
+
+
+
+{% block content %}
+<div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Inwards Slip</div>
+        </div>
+      </div>
+</div>
+
+<!--    <div class="row" style="color: #575757; font-style: bold; font-size: 3rem;">-->
+<!--        <div class="col-md-8">Inword Slip</div>-->
+<!--        <div class="col-md-4">-->
+<!--            <div style="float:right;"> <a class="btn btn-success" href="{% url 'new-sale' %}">New Outgoing Stock</a> </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<br>
+<div class="form-group">
+    <input id="myInput" type="text" class="search form-control"  placeholder="Search">
+</div>
+
+<form  action="{% url 'inwardslip' %}" method="POST">
+        {% csrf_token %}
+    <div>
+        From: <input type="date" name="fromdate">
+        To: <input type="date" name="todate">
+        <input class="btn btn-secondary" type="submit" value="Search">
+
+
+    </div>
+</form>
+
+
+
+ <table class="table table-css table-bordered table-hover" id="myTable" onkeyup="myFunction()">
+
+        <thead class="thead-dark align-middle">
+            <tr><!-- Log on to codeastro.com for more projects -->
+                <th width="5%">Bill No.</th>
+                <th width="15%">Date</th>
+                <th width="10%">From Whom Received</th>
+                <th width="15%">Description Of Stores</th>
+                <th width="10%">Quantity</th>
+                <th width="15%">Recd. By</th>
+                <th width="15%">Conditions</th>
+                <th width="30%">Actions</th>
+            </tr>
+        </thead>
+
+{% if bills %}
+
+        <tbody>
+            {% for purchase in bills %}
+            <tr>
+                <td class="align-middle"> <p>{{ purchase.billno }}</p> </td>
+                <td class="align-middle">{{ purchase.time.date }}</td>
+                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.name }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.description }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.quantity }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.Mode_of_delivery }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.condition}} <br> {% endfor %}</td>
+                <td class="align-middle"> <a href="{% url 'purchase-bill' purchase.billno %}" class="btn btn-secondary btn-sm">View</a></td>
+<!--                    <a href="{% url 'delete-purchase' purchase.pk %}" class="btn btn-danger btn-sm">Delete</a> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<div >
+            <a href="{% url 'stockre' %}" class="btn btn-secondary">Export CSV</a>
+
+</div>
+
+
+
+
+    <div class="align-middle"><!-- Log on to codeastro.com for more projects -->
+        {% if is_paginated %}
+
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+
+        {% endif %}
+    </div>
+
+{% else %}
+
+        <tbody></tbody>  <!-- Log on to codeastro.com for more projects -->
+    </table>
+
+    <br><br><br><br><br><br><br><br>
+    <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">The records are empty. Please try adding some.</div>
+
+{% endif %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+{% endblock content %}

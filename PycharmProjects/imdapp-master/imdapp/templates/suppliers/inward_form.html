@@ -1,0 +1,190 @@
+
+{% extends "base.html" %}
+
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block content %}
+
+    <div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Inward Items</div>
+        <div class="col-md-4">
+            <div style="float:right; margin-top:8%"> <a class="btn btn-success" href="{% url 'new-supplier' %}">New Supplier</a> </div>
+        </div>
+    </div>
+      </div>
+      <div class="card-body" style="font-family: 'Alkalami'">
+    <form method="post" >
+
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+<!--        <div class="form-group">-->
+<!--            {{ form.name.errors }}-->
+<!--            <label for="{{ form.name.id_for_label }}">Product Name:</label>-->
+<!--            {{ form.name }}-->
+<!--        </div>-->
+        <div style="margin-bottom:25px">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+          <label class="form-check-label" for="inlineRadio1">Consumable Items</label>
+        </div>
+        <div class="form-check form-check-inline" style="margin-left:20%">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+          <label class="form-check-label" for="inlineRadio2">Non-Consumable Items</label>
+        </div>
+        </div>
+<div class="form-row">
+            <div class="form-group form-group col-md-4">
+            {{ form.category.errors }}
+            <label for="{{ form.category.id_for_label }}">Category:</label>
+            {{ form.category}}
+        </div>
+
+        <div class="form-group form-group col-md-4">
+            {{ form.subcategory.errors }}
+            <label for="{{ form.subcategory.id_for_label }}">Subcategory:</label>
+            {{ form.subcategory }}
+        </div>
+
+        <div class="form-group form-group col-md-4">
+            {{ form.quantity.errors }}
+            <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
+            {{ form.quantity }}
+        </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group form-group col-md-6">
+            {{ form.name.errors }}
+            <label for="{{ form.name.id_for_label }}">Recieved From:  </label>
+            {{ form.name }}
+            </div>
+
+        <div class="form-group form-group col-md-6">
+            {{ form.label_code.errors }}
+            <label for="{{ form.label_code.id_for_label }}">Label-Code:</label>
+            {{ form.label_code }}
+            </div>
+        </div>
+
+
+<!--         <div class="form-group ">-->
+<!--            {{ form.size.errors }}-->
+<!--            <label for="{{ form.size.id_for_label }}">Size:</label>-->
+<!--            {{ form.size }}-->
+<!--&lt;!&ndash;    <select type="text" id="unitSelect" name="unitSelect">&ndash;&gt;-->
+<!--&lt;!&ndash;        <option selected>Inch</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        <option>Kg</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        <option>Gram</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        <option>Cm</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        <option>M</option>&ndash;&gt;-->
+<!--&lt;!&ndash;    </select>&ndash;&gt;-->
+
+<!--        </div>-->
+
+         <div class="form-group ">
+            {{ form.description.errors }}
+            <label for="{{ form.description.id_for_label }}">Description:</label>
+            {{ form.description }}
+        </div>
+
+        <div class="form-row">
+            <div class="form-group form-group col-md-6">
+            {{ form.condition.errors }}
+            <label for="{{ form.condition.id_for_label }}">Condition,packing:</label>
+            {{ form.condition }}
+            </div>
+
+        <div class="form-group form-group col-md-6">
+            {{ form.Mode_of_delivery.errors }}
+            <label for="{{ form.Mode_of_delivery.id_for_label }}">Mode of Delivery:</label>
+            {{ form.Mode_of_delivery }}
+            </div>
+        </div>
+
+        <br>
+
+        <div class="align-middle">
+            <button type="submit" class="btn btn-info">{{ savebtn }}</button>
+            {% if title == "New Stock" %}
+                <button type="reset" class="btn btn-danger" >Reset</button>
+            {% endif %}
+            {% if delbtn %}
+                <a href="{% url 'delete-stock' object.pk %}" class="btn  btn-danger"> Delete Stock </a>
+            {% endif %}
+            <a href="{% url 'supplier' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+      </div>
+    </div>
+<!--    <div style="color:#0F2557; font-style: bold; font-size: 3.5rem; border-bottom: 1px solid white;">INWARD ITEMS</div>-->
+<!--    <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> -->
+ <br>
+
+
+
+{% endblock content %}
+
+
+<!--{% extends "base.html" %}-->
+
+
+<!--{% block title %} {{title}} {% endblock title %}-->
+
+
+<!--{% block content %}-->
+
+<!--    <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> <br>-->
+<!--    -->
+<!--    <form method="post">-->
+<!--    -->
+<!--        {% csrf_token %}-->
+<!--        {{ form.non_field_errors }}-->
+<!--        {{ form.stock.errors }}-->
+<!--        {{ form.phone.errors }}-->
+<!--        {{ form.address.errors }}-->
+<!--        {{ form.email.errors }}-->
+
+
+<!--        <div class="form-group">-->
+<!--            <label for="{{ form.name.id_for_label }}">Name:</label>-->
+<!--            {{ form.name }}-->
+<!--        </div>-->
+
+<!--        <div class="form-row">-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label for="{{ form.phone.id_for_label }}">Phone No:</label>-->
+<!--                {{ form.phone }}-->
+<!--            </div>-->
+<!--            <div class="form-group col-md-6">-->
+<!--                <label for="{{ form.email.id_for_label }}">Email ID:</label>-->
+<!--                {{ form.email }}-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="{{ form.address.id_for_label }}">Address:</label>-->
+<!--            {{ form.address }}-->
+<!--        </div>-->
+
+<!--        <br>-->
+
+<!--        <div class="align-middle">-->
+<!--            <button type="submit" class="btn btn-success">{{ savebtn }}</button>-->
+<!--            {% if title == "New Supplier" %}-->
+<!--                <button type="reset" class="btn btn-danger" >Reset</button>-->
+<!--            {% endif %}-->
+<!--            {% if delbtn %}-->
+<!--                <a href="{% url 'delete-supplier' supplier.pk %}" class="btn btn-danger"> Delete Supplier </a>-->
+<!--            {% endif %}-->
+<!--            <a href="{% url 'suppliers-list' %}" class="btn btn-secondary">Cancel</a>-->
+<!--        </div>-->
+<!--        -->
+<!--    </form>-->
+
+<!--{% endblock content %}-->

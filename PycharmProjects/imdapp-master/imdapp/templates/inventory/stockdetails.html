@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+  {{ stock.name }}'s profile
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="content-section">
+        <div class="media"><!-- Log on to codeastro.com for more projects -->
+            <div class="media-body">
+                <h2 style="color:#575757;" class="account-heading">&nbsp;{{ stock.name }}</h2>
+                <a href="{% url 'edit-stock' stock.pk %}" class="btn btn-info" style="float: right;">Edit Details</a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="fal">
+                            <b>Category &nbsp; &nbsp;&nbsp; :</b> {{ stock.category }} <br>
+                            <b>SubCategory &nbsp;&nbsp;&nbsp;&nbsp; :</b> {{ stock.subcategory }} <br>
+                            <b>Quantity &nbsp; &nbsp;&nbsp; :</b> {{ stock.quantity }} <br>
+                            <b>Label-Code &nbsp; &nbsp;&nbsp; :</b> {{ stock.label_code }} <br>
+                            <b>Mode Of Delivery &nbsp; :</b> {{ stock.Mode_of_delivery }} <br>
+                            <b>Condition &nbsp; &nbsp;&nbsp; :</b> {{ stock.condition }} <br>
+                            <b>Description &nbsp; &nbsp;&nbsp; :</b> {{ stock.description }} <br>
+
+
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-css table-hover table-bordered">
+        
+        <br>
+        
+        <thead class="thead-dark align-middle">
+            <tr>
+                <th width="10%">Category</th>
+                <th width="10%">SubCategory</th>
+                <th width="5%">Quantity</th>
+                 <th width="10%">Label-Code</th>
+                <th width="5%">Mode Of Delivery</th>
+                <th width="10%">Condition</th>
+                <th width="15%">Description</th>
+                <th width="50%">Actions</th>
+            </tr><!-- Log on to codeastro.com for more projects -->
+        </thead>
+      
+        <tbody>
+            {% for stock in stockobj %}
+            <tr>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.name }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.category }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.subcategory }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.label_code }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.Mode_of_delivery }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.condition }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in stock.get_items_list %} {{ item.description }} <br> {% endfor %}</td>
+
+
+            </tr><!-- Log on to codeastro.com for more projects -->
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <div class="align-middle">
+        {% if bills.has_other_pages %}
+
+            {% if bills.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ bills.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in bills.paginator.page_range %}
+                {% if bills.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > bills.number|add:'-3' and num < bills.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if bills.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ bills.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ bills.paginator.num_pages }}">Last</a>
+            {% endif %}
+
+        {% endif %}
+    </div><!-- Log on to codeastro.com for more projects -->
+
+</div>
+
+{% endblock content %}
