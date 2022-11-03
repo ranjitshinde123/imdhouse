@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+
+{% block title %} Category List {% endblock title %}
+
+
+{% block content %}
+<div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Add Category</div>
+        <div class="col-md-4">
+            <div style="float:right; margin-top:8%">
+                <a class="btn btn-success" href="{% url 'addcategory' %}">Add New Category</a>
+            </div>
+        </div>
+        </div>
+      </div>
+</div>
+<!--    <div class="row" style="color: #575757; font-style: bold; font-size: 3rem;">-->
+<!--        <div class="col-md-8">Category List</div>-->
+<!--        <div class="col-md-4">       &lt;!&ndash; Log on to codeastro.com for more projects &ndash;&gt;-->
+<!--            <div style="float:right;"> <a class="btn btn-success" href="{% url 'addcategory' %}">Add New Category</a> </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <br>
+      <div class="card-body" style="font-family: 'Alkalami'">
+
+    <table class="table table-css table-hover table-bordered">
+
+        <thead class="thead-dark align-middle">
+            <tr>
+<!--                <th width="20%">No</th>-->
+                <th width="20%">Category</th>
+                <th width="20%">Sub-Category</th>
+                <th width="20">Description</th>
+                <th width="30">Action</th>
+            </tr>
+        </thead>
+
+{% if queryset %}
+        <tbody>
+            {% for category in queryset %}
+            <tr>
+<!--                <td class="align-middle"> {{ forloop.counter}} </td>-->
+                <td class="align-middle"> {{ category.category }} </td>
+                <td class="align-middle"> {{ category.subcategory }} </td>
+                <td class="align-middle"> {{ category.description }} </td>
+
+                 <td class="align-middle">
+                        <a href="{% url 'update-category' category.pk %}" class="btn btn-info btn-sm">Edit</a>
+                        <a href="{% url 'delete-category' category.pk %}" class="btn btn-danger btn-sm"> Delete</a>
+                    </td>
+
+            </tr>
+                {% endfor %}
+
+        </tbody>
+    </table>
+      </div>
+<div class="pagination">
+    <span class="step-links">
+        {% if queryset.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ queryset.previous_page_number }}">Previous</a>
+            {% endif %}
+        {% for num in queryset.paginator.page_range %}
+                {% if queryset.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > queryset.number|add:'-3' and num < queryset.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+<!--        <span class="current">-->
+<!--            Page {{ queryset.number}} of {{ queryset.paginator.num_pages }}.-->
+<!--        </span>-->
+
+        {% if queryset.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ queryset.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ queryset.paginator.num_pages }}">Last</a>
+            {% endif %}
+    </span>
+</div>
+
+
+{% else %}
+
+
+    <br><br><br><br><br><br><br><br>
+    <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">The records are empty. Please try adding some.</div>
+
+{% endif %}
+
+
+{% endblock content %}

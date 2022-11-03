@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+
+<style>
+* {box-sizing: border-box}
+
+/* Set height of body and the document to 100% */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial;
+}
+
+/* Style tab links */
+.tablink {
+  background-color: #3778C2;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 25%;
+}
+
+.tablink:hover {
+  background-color: #7ED5EA;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+  color: white;
+  display: none;
+  padding: 100px 20px;
+  height: 100%;
+}
+
+#Home
+#News
+<!--#News {background-color: #F4DB7D;}-->
+#Contact
+#About
+</style>
+<button class="tablink" onclick="openPage('Home', this, '#0F2557')" id="defaultOpen">Category</button>
+<button class="tablink" onclick="openPage('News', this, '#0F2557')" >Subcategory</button>
+<button class="tablink" onclick="openPage('Contact', this, '#0F2557')">Description</button>
+<!--<button class="tablink" href="{% url 'new-supplier' %}">Others</button>-->
+<button class="tablink" onclick="{% url 'new-supplier' %}">Others</button>
+<!--<button class="tablink" onclick="openPage('About', this, '#0F2557')">Others</button>-->
+
+<div id="Home" class="tabcontent">
+     <div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'">Add Category</div>
+        </div>
+      </div>
+
+    <form method="post" class="panel panel-default">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="panel-body">
+            {{ form.category.errors }}
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                     <label  class="panel-body-text" style="font-family: 'Alkalami'; margin-top:0.5rem;margin-left:0.5rem;">Category:</label>
+                     {{ form.category }}
+                </div>
+            </div>
+
+            </div>
+        <br>
+
+                <br>
+                <div class="align-middle">
+                    <button type="submit" class="btn btn-info">Submit</button>
+                </div>
+    </form>
+     </div>
+
+     </div>
+</div>
+
+<!--Description-->
+<div id="Contact" class="tabcontent">
+ <div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Add Description</div>
+        </div>
+      </div>
+    <br>
+
+    <form method="post" class="panel panel-default">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="panel-body">
+            {{ form.category.errors }}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label  class="panel-body-text" style="font-family: 'Alkalami'">Description:</label>
+                    {{ form.category}}
+                </div>
+            </div>
+            </div>
+
+        <br>
+               <div class="align-middle">
+                    <button type="submit" class="btn btn-info">Submit</button>
+                </div>
+
+
+    </form>
+
+</div>
+</div>
+
+
+<!--Subcategory-->
+<div id="News" class="tabcontent">
+    <a href="{% url 'new-supplier' %}"></a>
+ <div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Add Subcategory</div>
+        </div>
+      </div>
+    <br>
+
+    <form method="post" class="panel panel-default">
+
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="panel-body">
+
+            {{ form.category.errors }}
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="panel-body-text">Subcategory:</label>
+                    {{ form.category}}
+                </div>
+            </div>
+
+            </div>
+
+        <br>
+
+
+                <div class="align-middle">
+                    <button type="submit" class="btn btn-info">Submit</button>
+                </div>
+
+    </form>
+</div>
+</div>
+
+<!--    Other-->
+<!--<div id="About" class="tabcontent">-->
+<!--</div>-->
+
+<script>
+function openPage(pageName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(pageName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+{% endblock content %}
